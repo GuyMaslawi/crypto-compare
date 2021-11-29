@@ -9,7 +9,7 @@ const NavRoutes = () => {
                 path="/"
                 element={<Home />}
             >
-                <Route path=":coin-name" element={<CoinDetails />} />
+                <Route path=":coinName" element={<CoinDetails />} />
             </Route>
         </Routes>
     );

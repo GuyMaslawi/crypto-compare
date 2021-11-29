@@ -1,15 +1,18 @@
 import NavRoutes from "./routes/NavRoutes";
 import { Content } from "./AppStyle";
 import Header from "./components/header/Header";
+import CryptoProvider from "./Context";
 
 const App = () => {
   return (
-      <div>
+      <>
           <Header />
           <Content>
-              <NavRoutes />
+              <CryptoProvider>
+                  <NavRoutes />
+              </CryptoProvider>
           </Content>
-      </div>
+      </>
   );
 }
 

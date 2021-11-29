@@ -1,8 +1,15 @@
-
+import {useContext} from "react";
+import {CryptoContext} from "../../Context";
+import { useParams } from "react-router-dom";
 
 const CoinDetails = () => {
+    let params = useParams();
+
+
     return (
-        <div>coin details</div>
+        <div>
+            sgfgfdgd {params.coinName}
+        </div>
     );
 };
 

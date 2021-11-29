@@ -1,94 +1,59 @@
-import {useEffect, useState} from "react";
-import axios from 'axios';
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import TableCell from "@mui/material/TableCell";
-import TableBody from "@mui/material/TableBody";
-import TableContainer from "@mui/material/TableContainer";
-import IconButton from '@mui/material/IconButton';
+import {useContext, useEffect, useState} from "react";
+import {Paper, Table, TableHead, TableRow, TableBody, TableContainer} from "@mui/material";
 import {PinnedIcon, StyledTableCell} from './HomeStyle';
+import {CryptoContext} from "../../Context";
+import DataTable from "./DataTable";
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+
+const headers = [
+    {
+        id: 1,
+        name: "Name",
+    },
+    {
+        id: 2,
+        name: "Price",
+    },
+    {
+        id: 3,
+        name: "Volume(24h)"
+    },
+];
 
 const Home = () => {
-    const [items, setItems] = useState({});
-    const [isLoaded, setIsLoaded] = useState<boolean>(false);
-    const [error, setError] = useState<string>('');
-
-    useEffect(() => {
-        const fetchData = async () => {
-            setIsLoaded(false);
-
-            await axios.get("https://min-api.cryptocompare.com/data/pricemultifull?fsyms=BTC,ETH&tsyms=USD")
-                .then((result: any) => {
-                    const list = result.data.RAW;
-
-                    const resetData = Object.values(list).map((item: any) => {
-                        return {
-                            ...list,
-                            [item.USD]: {
-                                PINNED: false,
-                            }
-                        };
-                    });
-
-                    setItems(resetData);
-
-                    setIsLoaded(true);
-                })
-                .catch ((error) => {
-                        setIsLoaded(true);
-                        setError(error);
-                    }
-                )
-        };
-
-        fetchData();
-        console.log(items)
-    },[]);
-
-    const handleItemPinned = (row: {}) => {
-        const currentItem = row;
-        setItems({
-            ...items,
-            currentItem: {
-                pinned: true
-            }
-        });
-    };
+    const {data, isLoading, error}: any = useContext(CryptoContext);
 
     return (
         <div>
-            {!isLoaded ? <div>loading...</div> :
+            {!isLoading ? <div>loading...</div> :
                 error.length ? <div>{error}</div> :
 
-                    <TableContainer component={Paper}>
-                        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                            <TableHead>
-                                <TableRow>
-                                    <StyledTableCell>Coin</StyledTableCell>
-                                    <StyledTableCell>Market Value</StyledTableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {items && Object.values(items).map((row: any, index: number) => {
+                <TableContainer component={Paper}>
+                    <Table sx={{minWidth: 650}} aria-label="simple table">
+                        <TableHead>
+                            <TableRow>
+                                {headers.map(row => {
                                     return (
-                                        <TableRow key={index}>
-                                            <TableCell>
-                                                {/*<span>{row.USD.FROMSYMBOL}</span>*/}
-                                                {/*<img src={row.USD.IMAGEURL}*/}
-                                                {/*     alt={row.USD.FROMSYMBOL}*/}
-                                                {/*     style={{ marginLeft: '1rem' }}*/}
-                                                {/*/>*/}
-                                            </TableCell>
-                                            {/*<TableCell>${row.USD.PRICE}</TableCell>*/}
-                                        </TableRow>
-                                    );
+                                        <StyledTableCell key={row.id}
+                                                         sx={{
+                                                             backgroundColor: '#000',
+                                                             color: '#fff',
+                                                             fontSize: '1.6rem'
+                                                         }}>
+                                            {row.name}
+                                        </StyledTableCell>
+                                    )
                                 })}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {data && Object.values(data).map((row: any, index: number) => {
+                                return <DataTable row={row} index={index}/>
+                            })}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             }
         </div>
     );
