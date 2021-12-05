@@ -5,12 +5,8 @@ import Home from "../pages/home/Home";
 const NavRoutes = () => {
     return (
         <Routes>
-            <Route
-                path="/"
-                element={<Home />}
-            >
-                <Route path=":coinName" element={<CoinDetails />} />
-            </Route>
+            <Route path="/" element={<Home />}/>
+            <Route path=":coinName" element={<CoinDetails />} />
         </Routes>
     );
 };

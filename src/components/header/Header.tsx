@@ -1,9 +1,9 @@
-import {Wrapper} from './HeaderStyle';
+import {Wrapper, Title} from './HeaderStyle';
 
 const Header = () => {
     return (
         <Wrapper>
-            header
+            <Title>Crypto Compare</Title>
         </Wrapper>
     );
 };

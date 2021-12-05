@@ -19,7 +19,7 @@ const GlobalStyle = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-size: 1.4rem;
-    background-color: #f2f2f2;
+    background-color: rgb(248, 250, 253);
   }
 `;
 
