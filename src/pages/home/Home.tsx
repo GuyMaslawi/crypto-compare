@@ -9,7 +9,7 @@ import PushPinIcon from '@mui/icons-material/PushPin';
 import {fetchCoins, setSelectedCoin} from "../../store/cryptoSlice";
 import {formatIntNumber, formatFloatNumber, getImgPath} from "../utils";
 import Loader from "../../components/loader/Loader";
-import {PriceWrap, Img, Div} from './HomeStyle';
+import {Container, PriceWrap, Img, Div} from './HomeStyle';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
@@ -22,10 +22,12 @@ const Home = () => {
         dispatch(fetchCoins());
     }, [dispatch]);
 
-    const NameComp = (params: { data: { FROMSYMBOL: string, IMAGEURL: string } }) => {
+    const handlePinnedRow = (api: {setPinnedTopRowData: any}, data: {}) => api.setPinnedTopRowData([data]);
+
+    const NameComp = (params: { data: { FROMSYMBOL: string, IMAGEURL: string }, api: {setPinnedTopRowData: any} }) => {
         return (
             <Div>
-                <IconButton aria-label="pin row">
+                <IconButton aria-label="pin row" onClick={() => handlePinnedRow(params.api, params.data)}>
                     <PushPinIcon />
                 </IconButton>
                 <Link to={params.data.FROMSYMBOL}
@@ -70,7 +72,7 @@ const Home = () => {
         isLoading ?
             <Loader/>
             :
-            <div className="ag-theme-alpine" style={{
+            <Container className="ag-theme-alpine" style={{
                 margin: "0 auto",
                 height: "calc(100vh - 14rem)",
                 width: "80.5rem",
@@ -99,7 +101,7 @@ const Home = () => {
                     />
 
                 </AgGrid>
-            </div>
+            </Container>
     );
 };
 

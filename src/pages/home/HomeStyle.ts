@@ -1,4 +1,14 @@
-import { styled } from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
+
+export const Container = styled('div')`
+  .ag-row-pinned {
+    background-color: lightblue;
+
+    .MuiSvgIcon-root {
+      color: blue;
+    }
+  }
+`;
 
 interface ColorProps {
     isup: string;
